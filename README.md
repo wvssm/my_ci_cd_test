@@ -116,4 +116,11 @@ ci/cd 테스트
 
 # CD - EC2에서 수행할 작업
 - sudo apt install awscli
-- sudo apt configure
+- sudo aws configure
+  - ID, 시크릿키, 리전, 형식(json) 입력
+- codeDeploy agent 
+  - wget https://aws-codedeploy-ap-northeast-2.s3.amazonaws.com/latest/install
+  - chmod +x ./install
+  - sudo apt-get install ruby
+  - sudo ./install auto
+  - sudo service codedeploy-agent status
