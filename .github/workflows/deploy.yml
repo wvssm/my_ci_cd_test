@@ -38,7 +38,7 @@ jobs:
           echo PORT=${{ secrets.PORT }} >> .env
           cat .env
       
-      - name: package install. ㅍㅐㅋㅣㅈㅣ ㅅㅓㄹㅊㅣ
+      - name: package install. 패키지설치
         working-directory:  ./
         run:  yarn
       
