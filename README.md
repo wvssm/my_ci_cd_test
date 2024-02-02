@@ -124,3 +124,5 @@ ci/cd 테스트
   - sudo apt-get install ruby
   - sudo ./install auto
   - sudo service codedeploy-agent status
+
+# 실행하기
