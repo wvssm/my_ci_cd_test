@@ -38,7 +38,7 @@ jobs:
           echo PORT=${{ secrets.PORT }} >> .env
           cat .env
       
-      - name: package install. 패키지설치
+      - name: package install. 패키지 설치 
         working-directory:  ./
         run:  yarn
       
@@ -46,4 +46,19 @@ jobs:
         working-directory:  ./
         run:  yarn run build
 
+      - name: 빌드한 소스코드, 리소스, 기타 설정파일 => 압축(zip)
+        run: zip -r app.zip ./bin ./build ./public ./routes ./views ./app.js ./package.json ./.env
+
+      - name: aws 접속
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id:  ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: 압축(zip)한 리소스 => s3 업로드
+        run:  aws s3 cp --region ap-northeast-2 ./app.zip s3://pusan-deploy-burket/deploy/
+
+      - name: AWS codeDeploy 서비스에 절차에 따라 배포 시작
+        run:  aws deploy create-deployment --application-name pusan-code-deploy --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name dev --s3-location bucket=pusan-deploy-burket,bundleType=zip,key=deploy/app.zip
   
